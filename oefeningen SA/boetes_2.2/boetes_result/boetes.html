@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: large;
+                font-weight: 700;
+                margin: 20px;
+                clear: both;
+            }
+            #mySlider, #boetebalk{
+                border: 1px grey solid;
+        
+            }
+            #boetekop{
+                visibility: hidden;
+            }
+            #feedback{
+                visibility: hidden;
+                margin-top: 10px;
+                padding: 10px;
+                background-color: green;
+                float: left;
+            }
+            #output {
+                padding: 10px;
+                font-size: large;
+                font-weight: 700;
+            }
+            #boetebalk{
+                box-sizing: border-box;
+                visibility: hidden;
+                background-color: red;
+                min-width: 100px;
+                margin-top: 10px;
+                padding: 10px;
+                text-align: right;
+            }
+            #staffeltabel td, #staffeltabel th {
+                font-size: small;
+                background-color: rgb(170, 170, 170);
+                text-align: center;
+                margin: 2px;
+                padding: 3px;
+                width: 8rem;
+            }
+            #staffeltabel th{
+                background-color: rgb(100, 128, 128);
+            }
+            
+        </style>
+    </head>
+    <body>
+        <label for="mySlider">Hoe hard rijdt u in de bebouwde kom?</label><br><input value="0" type="range" min="0" max="120" id="mySlider"><output id="output">...</output>
+        <br><div id="feedback"></div>
+        <p id="boetekop">Boetebedrag (inclusief &euro; 9,- administratiekosten):</p>
+        <div id="boetebalk"><span id="boetebedrag"></span></div>
+        <table id="staffeltabel"></table>
+        
+        <script src="boetes.js" async defer></script>
+    </body>
+</html>

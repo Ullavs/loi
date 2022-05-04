@@ -1,0 +1,45 @@
+#field {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#field>div {
+padding: 5px;
+}
+#field img {
+  width: 100%;
+}
+
+.board4 {
+  flex: 25%;
+  max-width: 25%;
+  box-sizing: border-box;
+}
+
+.board5 {
+  flex: 20%;
+  max-width: 20%;
+  box-sizing: border-box;
+}
+
+.board6 {
+  flex: 16.66666%;
+  max-width: 16.66666%;
+  box-sizing: border-box;
+}
+
+img {
+  margin: 0;
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  #field {
+    max-width: 768px;
+  }
+
+}
+
