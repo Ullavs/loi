@@ -61,15 +61,13 @@ function onClickCancel(clickedCancel) {
 
 // na operator geen "0" maar echt LEEG
 // 1 + 2 + 3 doet het nog niet!!!!
+// tussendoor als je + / - * doet dan al de uitslag laten zien
 
 // Hoe evalueert u of er al een waarde in myInput staat?
 // Er staat weliswaar een 0 in het display maar dit is een placeholder, géén waarde.
 // De waarde in de initiële staat is "". Als dit true is, mag een nieuw getal ingevoerd worden.
 
 // Klikken op operator --> ingevoerde cijfer opslaan --> vervolgens nieuw cijfer kunnen invoeren
-
-// Hoe zorgt u ervoor dat er niet een aantal nullen achter elkaar ingetoetst kunnen worden
-// tenzij deze vooraf gegaan zijn door een ander cijfer of een punt?
 
 // U hebt een aantal if / else if / else statements nodig
 // én u moet de invoerwaarden van de berekeningen in variabelen (let) opslaan.
