@@ -4,6 +4,10 @@ let previousNumber = null;
 let operator = null;
 
 const onClickNumber = (clickedNumber) => {
+  if (myOperator.value) {
+    clearInput();
+  }
+
   if (clickedNumber === "." && myInput.value.includes(".")) {
     return;
   }
@@ -16,8 +20,8 @@ const onClickNumber = (clickedNumber) => {
     myInput.value = "";
   }
 
-  if (myOperator.value) {
-    clearInput();
+  if (clickedNumber === "." && myInput.value === "") {
+    myInput.value = "0";
   }
 
   myInput.value += clickedNumber;
