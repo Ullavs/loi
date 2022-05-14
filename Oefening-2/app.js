@@ -1,74 +1,71 @@
-const myInput = document.getElementById("result");
-const myOperator = document.getElementById("operator");
-let firstNumber;
+const myInput = document.getElementById('result')
+const myOperator = document.getElementById('operator')
+let previousNumber = null
+let operator = null
 
-function onClickNumber(clickedNumber) {
-  if (clickedNumber === "." && myInput.value.includes(".")) {
-    return;
+const onClickNumber = clickedNumber => {
+  if (clickedNumber === '.' && myInput.value.includes('.')) {
+    return
   }
 
-  if (clickedNumber === "0" && myInput.value.includes("0")) {
-    return;
+  if (clickedNumber === '0' && myInput.value === '0') {
+    return
   }
 
-  if (myOperator.value === "=") {
-    myInput.value = "";
-    myOperator.value = "";
+  if (myOperator.value) {
+    clearInput()
   }
 
-  myInput.value += clickedNumber;
-
-  // maximaal 1 "0" aan de voorkant
-  // 0.1 + 0.2 oplossen
+  myInput.value += clickedNumber
 }
 
-function onClickOperator(clickedOperator) {
-  myOperator.value = clickedOperator;
+const onClickOperator = clickedOperator => {
+  myOperator.value = clickedOperator
 
-  firstNumber = Number(myInput.value);
-  myInput.value = "";
-  console.log(firstNumber);
-}
-
-function onClickEquals(clickedEquals) {
-  let secondNumber = Number(myInput.value);
-
-  switch (myOperator.value) {
-    case "+":
-      myInput.value = firstNumber + secondNumber;
-      myOperator.value = "=";
-      break;
-    case "-":
-      myInput.value = firstNumber - secondNumber;
-      myOperator.value = "=";
-      break;
-    case "x":
-      myInput.value = firstNumber * secondNumber;
-      myOperator.value = "=";
-      break;
-    case "/":
-      myInput.value = firstNumber / secondNumber;
-      myOperator.value = "=";
+  if (previousNumber) {
+    calculate()
   }
 
-  console.log(secondNumber);
+  operator = clickedOperator
+  previousNumber = Number(myInput.value)
 }
 
-function onClickCancel(clickedCancel) {
-  myInput.value = "";
-  myOperator.value = "";
+const onClickEquals = () => {
+  calculate()
+  resetState()
 }
 
-// na operator geen "0" maar echt LEEG
-// 1 + 2 + 3 doet het nog niet!!!!
-// tussendoor als je + / - * doet dan al de uitslag laten zien
+const onClickCancel = () => {
+  clearInput()
+  resetState()
+}
 
-// Hoe evalueert u of er al een waarde in myInput staat?
-// Er staat weliswaar een 0 in het display maar dit is een placeholder, géén waarde.
-// De waarde in de initiële staat is "". Als dit true is, mag een nieuw getal ingevoerd worden.
+const calculate = () => {
+  let currentNumber = Number(myInput.value)
 
-// Klikken op operator --> ingevoerde cijfer opslaan --> vervolgens nieuw cijfer kunnen invoeren
+  switch (operator) {
+    case '+':
+      myInput.value = previousNumber + currentNumber
+      break
+    case '-':
+      myInput.value = previousNumber - currentNumber
+      break
+    case 'x':
+      myInput.value = previousNumber * currentNumber
+      break
+    case '/':
+      myInput.value = previousNumber / currentNumber
+  }
 
-// U hebt een aantal if / else if / else statements nodig
-// én u moet de invoerwaarden van de berekeningen in variabelen (let) opslaan.
-// Ook moet u de gekozen operator in een let opslaan.
+  myOperator.value = '='
+}
+
+const resetState = () => {
+  operator = null
+  previousNumber = null
+}
+
+const clearInput = () => {
+  myInput.value = ''
+  myOperator.value = ''
+}
