@@ -1,71 +1,75 @@
-const myInput = document.getElementById('result')
-const myOperator = document.getElementById('operator')
-let previousNumber = null
-let operator = null
+const myInput = document.getElementById("result");
+const myOperator = document.getElementById("operator");
+let previousNumber = null;
+let operator = null;
 
-const onClickNumber = clickedNumber => {
-  if (clickedNumber === '.' && myInput.value.includes('.')) {
-    return
+const onClickNumber = (clickedNumber) => {
+  if (clickedNumber === "." && myInput.value.includes(".")) {
+    return;
   }
 
-  if (clickedNumber === '0' && myInput.value === '0') {
-    return
+  if (clickedNumber === "0" && myInput.value === "0") {
+    return;
+  }
+
+  if (clickedNumber !== "0" && clickedNumber !== "." && myInput.value === "0") {
+    myInput.value = "";
   }
 
   if (myOperator.value) {
-    clearInput()
+    clearInput();
   }
 
-  myInput.value += clickedNumber
-}
+  myInput.value += clickedNumber;
+};
 
-const onClickOperator = clickedOperator => {
-  myOperator.value = clickedOperator
+const onClickOperator = (clickedOperator) => {
+  myOperator.value = clickedOperator;
 
   if (previousNumber) {
-    calculate()
+    calculate();
   }
 
-  operator = clickedOperator
-  previousNumber = Number(myInput.value)
-}
+  operator = clickedOperator;
+  previousNumber = Number(myInput.value);
+};
 
 const onClickEquals = () => {
-  calculate()
-  resetState()
-}
+  calculate();
+  resetState();
+};
 
 const onClickCancel = () => {
-  clearInput()
-  resetState()
-}
+  clearInput();
+  resetState();
+};
 
 const calculate = () => {
-  let currentNumber = Number(myInput.value)
+  let currentNumber = Number(myInput.value);
 
   switch (operator) {
-    case '+':
-      myInput.value = previousNumber + currentNumber
-      break
-    case '-':
-      myInput.value = previousNumber - currentNumber
-      break
-    case 'x':
-      myInput.value = previousNumber * currentNumber
-      break
-    case '/':
-      myInput.value = previousNumber / currentNumber
+    case "+":
+      myInput.value = previousNumber + currentNumber;
+      break;
+    case "-":
+      myInput.value = previousNumber - currentNumber;
+      break;
+    case "x":
+      myInput.value = previousNumber * currentNumber;
+      break;
+    case "/":
+      myInput.value = previousNumber / currentNumber;
   }
 
-  myOperator.value = '='
-}
+  myOperator.value = "=";
+};
 
 const resetState = () => {
-  operator = null
-  previousNumber = null
-}
+  operator = null;
+  previousNumber = null;
+};
 
 const clearInput = () => {
-  myInput.value = ''
-  myOperator.value = ''
-}
+  myInput.value = "";
+  myOperator.value = "";
+};
