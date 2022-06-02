@@ -34,6 +34,9 @@ const myCardArray = [
   "hen",
 ];
 
+const myDoubleCardArray = myCardArray.concat(myCardArray);
+console.log(myDoubleCardArray);
+
 const myCardSet = myCardArray.map((card) => new Card(card));
 
 window.onload = populateField;
