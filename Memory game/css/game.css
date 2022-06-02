@@ -6,8 +6,8 @@
   margin: 0 auto;
 }
 
-#field>div {
-padding: 5px;
+#field > div {
+  padding: 5px;
 }
 #field img {
   width: 100%;
@@ -40,6 +40,4 @@ img {
   #field {
     max-width: 768px;
   }
-
 }
-
