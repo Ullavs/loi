@@ -6,9 +6,8 @@
   margin: 0 auto;
 }
 
-#field > div {
-  padding: 5px;
-  position: relative;
+#field>div {
+padding: 5px;
 }
 #field img {
   width: 100%;
@@ -41,17 +40,6 @@ img {
   #field {
     max-width: 768px;
   }
+
 }
 
-.covered,
-.uncovered {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-}
-
-.uncovered {
-  display: none;
-}

@@ -45,8 +45,11 @@ const myCardArray = [
 // Functie die wordt aangeroepen op het moment dat er wordt geklikt op een kaartje, de 'naam' wordt getoond in de console.
 function onClickCard(event) {
   const clickedCard = event.target;
-  const nameclickedCard = clickedCard.getAttribute("name");
-  console.log(nameclickedCard);
+
+  if (clickedCard.className === "covered") {
+    clickedCard.className = "uncovered";
+    console.log(clickedCard.parentNode.firstChild.getAttribute("name"));
+  }
 }
 
 // Stopt DOM element 'field' in een variabele voor gebruik in JavaScript.
@@ -73,18 +76,25 @@ class Card {
 
 // Hierbij wordt voor elke kaart in de set een 'card object' geïnitieerd
 const myCardSet = shuffledCards.map((card) => new Card(card));
-console.log(myCardSet);
 
 // Deze functie zorgt ervoor dat voor elke kaart in de kaartset elementen worden gecreëerd in HTML en vervolgens wordt dit toegevoegd aan het veld
 function populateField() {
   myCardSet.forEach((card) => {
     let newTile = document.createElement("div");
+    newTile.classList.add("board6");
+
     let newCard = document.createElement("img");
     let imageURL = `img/${card.card1}.jpg`;
     newCard.setAttribute("src", imageURL);
     newCard.setAttribute("name", card.card1);
+
+    let cover = document.createElement("img");
+    cover.setAttribute("src", "img/cover.png");
+    cover.classList.add("covered");
+
     newTile.appendChild(newCard);
-    newTile.classList.add("board6");
+    newTile.appendChild(cover);
+
     myField.appendChild(newTile);
   });
 }

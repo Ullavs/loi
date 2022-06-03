@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #calculator {
+            width: 500px;
+        }
+
+        #keys {
+            display: flex;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        #numbers {
+            display: flex;
+            flex-wrap: wrap;
+            width: 75%;
+            justify-content: center;
+        }
+
+        #operators {
+            width: 25%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #numbers div,
+        #operators div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.6) inset;
+        }
+
+        #numbers div {
+            padding: 30px 0 0 0;
+        }
+
+        #numbers div:active,
+        #operators div:active {
+
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6) inset;
+        }
+
+        #screen {
+            margin: 18px;
+            width: calc(100% - 30px);
+            box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.6) inset;
+            background-color: rgba(239, 239, 239, 0.3);
+            display: flex;
+
+        }
+
+        #result,
+        #operator {
+            width: 100%;
+            height: 100px;
+            padding: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 42px;
+            text-align: right;
+            border: none;
+        }
+
+        #operator {
+            width: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="calculator">
+        <div id="screen">
+            <input type="text" id="result" placeholder="0" value="" disabled>
+            <input type="text" id="operator" disabled>
+        </div>
+        <div id="keys">
+            <div id="numbers">
+                <div onclick="onClickNumber(7)">7</div>
+                <div onclick="onClickNumber(8)">8</div>
+                <div onclick="onClickNumber(9)">9</div>
+                <div onclick="onClickNumber(4)">4</div>
+                <div onclick="onClickNumber(5)">5</div>
+                <div onclick="onClickNumber(6)">6</div>
+                <div onclick="onClickNumber(1)">1</div>
+                <div onclick="onClickNumber(2)">2</div>
+                <div onclick="onClickNumber(3)">3</div>
+                <div onclick="onClickNumber('.')">.</div>
+                <div onclick="onClickNumber(0)">0</div>
+                <div onclick="onClickEquals('=')">=</div>
+            </div>
+            <div id="operators">
+                <div onclick="onClickCancel('C')">C</div>
+                <div onclick="onClickOperator('+')">+</div>
+                <div onclick="onClickOperator('-')">-</div>
+                <div onclick="onClickOperator('x')">x</div>
+                <div onclick="onClickOperator('/')">/</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // const player = prompt("Wat is uw naam?");
+        const myInput = document.getElementById("result");
+        const myOperator = document.getElementById("operator");
+
+        function onClickNumber(clickedNumber) {
+            console.log(clickedNumber);
+            myInput.value += clickedNumber;
+        }
+        function onClickOperator(evt) {
+            console.log(evt);
+            myOperator.value = evt;
+
+        }
+        function onClickCancel(evt) {
+            console.log(evt);
+            myInput.value = "";
+            myOperator.value = "";
+        }
+        function onClickEquals(evt) {
+            console.log(evt);
+        }
+    </script>
+</body>
+
+</html>
