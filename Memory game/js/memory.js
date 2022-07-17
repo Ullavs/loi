@@ -1,39 +1,27 @@
 "use strict";
 
-// Een array met alle unieke memorykaartjes
-const uniqueCardArray = [
-  "duck",
-  "kitten",
-  "piglet",
-  "puppy",
-  "calf",
-  "veal",
-  "lamb",
-  "rooster",
-  "horse",
-  "mouse",
-  "dog",
-  "cat",
-  "goose",
-  "goat",
-  "sheep",
-  "pig",
-  "cow",
-  "chick",
-  "hen",
-];
 // Stopt DOM select element 'field-size' in een variabele voor gebruik in JavaScript.
 const fieldSize = document.getElementById("field-size");
 // Stopt DOM element 'field' in een variabele voor gebruik in JavaScript.
 const field = document.getElementById("field");
 
+// Een array met alle unieke memorykaartjes
+let uniqueCardArray = [];
+
+fetch("js/cards.json")
+  .then((response) => response.json())
+  .then((data) => {
+    uniqueCardArray = data.map((card) => new Card(card));
+    console.log(uniqueCardArray);
+  });
+
 // Class die de properties van een individuele card bij zich houdt
 class Card {
-  constructor(card1, card2 = card1, set = card1, sound = card1) {
-    this.card1 = card1;
-    this.card2 = card2;
-    this.set = set;
-    this.sound = sound;
+  constructor(cardObject) {
+    this.card1 = cardObject.card1;
+    this.card2 = cardObject.card2;
+    this.set = cardObject.set;
+    this.sound = cardObject.sound;
   }
 }
 
@@ -63,17 +51,18 @@ function onSelectFieldSize(event) {
   // De variabele size wordt gebruikt om de variabele boardClass aan te passen n.a.v. geselecteerde waarde
   const boardClass = `board${size}`;
 
-  // Het aantal individuele kaartjes wordt bepaald met onderstaande ternary
-  const individualCardsAmount = size === "4" ? 8 : size === "5" ? 12 : 18;
-
   // De array met kaartjes wordt geshuffled
   const shuffledDeck = shuffle(uniqueCardArray);
+
+  // Het aantal individuele kaartjes wordt bepaald met onderstaande ternary
+  const individualCardsAmount = size === "4" ? 8 : size === "5" ? 12 : 18;
 
   // Er worden x aantal (individualCardsAmount) kaartjes uit het geschudde array van kaartjes gepakt
   const pickedIndividualCards = shuffledDeck.slice(0, individualCardsAmount);
 
   // Middels de methode .concat wordt de array van memorykaartjes verdubbeld.
   const myDoubleCardArray = pickedIndividualCards.concat(pickedIndividualCards);
+
   // Hierbij wordt de functie shuffle aangeroepen om de verdubbelde array te shuffelen
   const shuffledCards = shuffle(myDoubleCardArray);
 
