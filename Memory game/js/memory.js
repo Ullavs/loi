@@ -1,3 +1,16 @@
+// 4. Tekstveld met pogingen
+// 5. Tekstveld met succesvolle pogingen
+// 6. Tekstveld met verstreken tijd (timer, met setInterval() en clearInterval())
+// 11. Highscore opslaan in localStorage (kortste tijd)
+// 12. Highscore tonen na elk spel
+// 13. Einde spel definieren + opnieuw kunnen starten
+// 13. Refactor
+// 14. Polish
+// 15. Comment
+// - Tips: onClickCard(), evaluateMatch(), keepScore(), nextMove(), resetGame()
+// - Tips: addEventListener() op het Field en met removeListener() verwijderen als iemand op 2 kaartjes heeft geklikt
+// - Tips: setTimeout() voor pauzes
+
 "use strict";
 
 // Stopt DOM select element 'field-size' in een variabele voor gebruik in JavaScript.
@@ -12,16 +25,13 @@ fetch("js/cards.json")
   .then((response) => response.json())
   .then((data) => {
     uniqueCardArray = data.map((card) => new Card(card));
-    console.log(uniqueCardArray);
   });
 
 // Class die de properties van een individuele card bij zich houdt
 class Card {
   constructor(cardObject) {
     this.card1 = cardObject.card1;
-    this.card2 = cardObject.card2;
-    this.set = cardObject.set;
-    this.sound = cardObject.sound;
+    this.sound = `snd/${cardObject.card1}.wav`;
   }
 }
 
@@ -84,36 +94,87 @@ function populateField(boardClass, cardSet) {
   cardSet.forEach((card) => {
     // Nieuw div element
     let newTile = document.createElement("div");
+    newTile.setAttribute("name", card.card1);
+    newTile.classList.add("tile");
+
+    // Nieuw audio element
+    let audio = document.createElement("audio");
+    audio.setAttribute("src", card.sound);
 
     // Nieuw img element met src en name van memorykaartje
     let newCard = document.createElement("img");
     let imageURL = `img/${card.card1}.jpg`;
     newCard.setAttribute("src", imageURL);
-    newCard.setAttribute("name", card.card1);
 
     // Nieuw img element met src van de cover
     let cover = document.createElement("img");
     cover.setAttribute("src", "img/cover.png");
-    cover.classList.add("covered");
+    cover.classList.add("cover");
 
-    // Voegt de twee plaatjes aan de nieuwe tile
+    // Voegt de twee plaatjes en de audio aan de nieuwe tile
     newTile.appendChild(newCard);
     newTile.appendChild(cover);
+    newTile.appendChild(audio);
 
     // Voegt tile toe aan field
     field.appendChild(newTile);
   });
 }
 
+let activeCards = [];
+
 // Functie die wordt aangeroepen op het moment dat er wordt geklikt op een kaartje, de 'naam' wordt getoond in de console
 function onClickCard(event) {
   const clickedCard = event.target;
 
+  if (!clickedCard.classList.contains("tile")) {
+    return;
+  }
+
+  if (clickedCard.classList.contains("match")) {
+    return;
+  }
+
+  if (clickedCard.classList.contains("uncovered")) {
+    return;
+  }
+
+  if (activeCards.length === 2) {
+    return;
+  }
+
+  const nameClickedCard = clickedCard.getAttribute("name");
+
+  const cardSound = clickedCard.querySelector("audio");
+  cardSound.play();
+
+  activeCards.push(nameClickedCard);
+
   // Als aangeklikte kaartje de class 'covered' heeft, wordt dit veranderd naar 'uncovered'; als je klikt op een kaartje met 'uncovered', wordt dit veranderd naar 'covered'
-  if (clickedCard.classList.contains("covered")) {
-    clickedCard.classList.replace("covered", "uncovered");
+  if (!clickedCard.classList.contains("uncovered")) {
+    clickedCard.classList.add("uncovered");
   } else if (clickedCard.classList.contains("uncovered")) {
-    clickedCard.classList.replace("uncovered", "covered");
+    clickedCard.classList.remove("uncovered");
+  }
+
+  if (activeCards[0] === activeCards[1]) {
+    const matchedCards = document.querySelectorAll(".uncovered");
+
+    matchedCards.forEach((matchedCard) => {
+      matchedCard.classList.add("match");
+    });
+
+    activeCards = [];
+  }
+
+  if (activeCards.length === 2) {
+    setTimeout(() => {
+      activeCards = [];
+      const openCards = document.querySelectorAll(".uncovered");
+      openCards.forEach((openCard) => {
+        openCard.classList.remove("uncovered");
+      });
+    }, 1000);
   }
 }
 
@@ -122,3 +183,14 @@ fieldSize.addEventListener("change", onSelectFieldSize);
 
 // Voegt een EventListener toe aan het DOM element (myField) en roept functie 'onClickCard' aan
 field.addEventListener("click", onClickCard);
+
+let namePlayer = localStorage.getItem("name");
+
+if (!namePlayer) {
+  namePlayer = prompt("Wat is je naam?");
+  localStorage.setItem("name", namePlayer);
+}
+
+if (namePlayer) {
+  alert(`Hoi ${namePlayer}, veel plezier met je potje memory`);
+}

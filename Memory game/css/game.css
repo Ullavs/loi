@@ -28,13 +28,19 @@ main {
   gap: 0.5rem;
 }
 
-#field > div {
+.tile {
   position: relative;
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 1px 1px 10px -5px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   user-select: none;
+  transition: all ease-in 500ms;
+}
+
+.tile.uncovered,
+.tile.match {
+  cursor: default;
 }
 
 #field img {
@@ -69,15 +75,23 @@ img {
   }
 }
 
-.covered,
-.uncovered {
+.tile img {
+  pointer-events: none;
+}
+
+.cover {
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100%);
-  height: calc(100%);
+  width: 100%;
+  height: 100%;
 }
 
-.uncovered {
+.match .cover,
+.uncovered .cover {
   opacity: 0;
+}
+
+.match {
+  opacity: 0.25;
 }
