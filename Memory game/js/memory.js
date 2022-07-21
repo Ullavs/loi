@@ -1,22 +1,21 @@
-// 4. Tekstveld met pogingen
-// 5. Tekstveld met succesvolle pogingen
-// 6. Tekstveld met verstreken tijd (timer, met setInterval() en clearInterval())
-// 11. Highscore opslaan in localStorage (kortste tijd)
-// 12. Highscore tonen na elk spel
-// 13. Einde spel definieren + opnieuw kunnen starten
+// 12. Highscore per soort spel
+// xx. Einde spel definieren + opnieuw kunnen starten
+// xx. Per nieuw spel --> nieuw scoreboard
 // 13. Refactor
 // 14. Polish
 // 15. Comment
-// - Tips: onClickCard(), evaluateMatch(), keepScore(), nextMove(), resetGame()
-// - Tips: addEventListener() op het Field en met removeListener() verwijderen als iemand op 2 kaartjes heeft geklikt
-// - Tips: setTimeout() voor pauzes
+// - Tips: onClickCard(), evaluateMatch(),
+// keepScore(), nextMove(), resetGame()
 
 "use strict";
 
-// Stopt DOM select element 'field-size' in een variabele voor gebruik in JavaScript.
+// Stopt verscheidene DOM elementen in een variabele voor gebruik in JavaScript.
 const fieldSize = document.getElementById("field-size");
-// Stopt DOM element 'field' in een variabele voor gebruik in JavaScript.
 const field = document.getElementById("field");
+const totalAttempts = document.querySelector(".total-attempts");
+const successfulAttempts = document.querySelector(".successful-attempts");
+const playTime = document.querySelector(".play-time");
+const bestScore = document.querySelector(".highscore");
 
 // Een array met alle unieke memorykaartjes
 let uniqueCardArray = [];
@@ -54,8 +53,16 @@ function shuffle(array) {
   return array;
 }
 
+let timer = 0;
+let resetTimer = null;
+
 // Functie die wordt aangeroepen bij het selecteren van de grootte van het speelveld
 function onSelectFieldSize(event) {
+  clearInterval(resetTimer);
+  timer = 0;
+  clicks = 0;
+  matches = 0;
+
   // De waarde van het gekozen speelveld wordt in een variabele gezet
   const size = event.target.value;
   // De variabele size wordt gebruikt om de variabele boardClass aan te passen n.a.v. geselecteerde waarde
@@ -81,6 +88,15 @@ function onSelectFieldSize(event) {
 
   // Hiermee  wordt 'populateField' aangeroepen waardoor de memory kaarten worden getoond, hiermee geven we als parameters 'boardClass' en 'cardSet' mee
   populateField(boardClass, cardSet);
+
+  resetTimer = setInterval(() => {
+    timer++;
+
+    const seconds = (timer % 60).toString().padStart(2, "0");
+    const minutes = (timer - seconds) / 60;
+
+    playTime.textContent = `${minutes}:${seconds}`;
+  }, 1000);
 }
 
 // Deze functie zorgt ervoor dat voor elke kaart in de kaartset elementen worden gecreëerd in HTML en vervolgens wordt dit toegevoegd aan het veld
@@ -122,6 +138,8 @@ function populateField(boardClass, cardSet) {
 }
 
 let activeCards = [];
+let clicks = 0;
+let matches = 0;
 
 // Functie die wordt aangeroepen op het moment dat er wordt geklikt op een kaartje, de 'naam' wordt getoond in de console
 function onClickCard(event) {
@@ -143,6 +161,9 @@ function onClickCard(event) {
     return;
   }
 
+  clicks++;
+  totalAttempts.textContent = Math.floor(clicks / 2);
+
   const nameClickedCard = clickedCard.getAttribute("name");
 
   const cardSound = clickedCard.querySelector("audio");
@@ -159,13 +180,39 @@ function onClickCard(event) {
 
   if (activeCards[0] === activeCards[1]) {
     const matchedCards = document.querySelectorAll(".uncovered");
-
+    matches++;
     matchedCards.forEach((matchedCard) => {
       matchedCard.classList.add("match");
     });
 
+    const tiles = document.querySelectorAll(".tile");
+    const finishedMatch = [...tiles].every((tile) => {
+      return tile.classList.contains("match");
+    });
+
+    if (finishedMatch) {
+      clearInterval(resetTimer);
+      const seconds = (timer % 60).toString().padStart(2, "0");
+      const minutes = (timer - seconds) / 60;
+
+      const highscore = localStorage.getItem("highscore");
+      if (!highscore || Number(highscore) > timer) {
+        localStorage.setItem("highscore", timer);
+        bestScore.textContent = `${minutes}:${seconds}`;
+        alert(
+          `Gefeliciteerd ${namePlayer}, je hebt een nieuw persoonlijk record gezet: ${minutes}:${seconds}!`
+        );
+      } else {
+        alert(
+          `Goed gedaan ${namePlayer}, helaas geen nieuw persoonlijk record!`
+        );
+      }
+    }
+
     activeCards = [];
   }
+
+  successfulAttempts.textContent = matches;
 
   if (activeCards.length === 2) {
     setTimeout(() => {
@@ -185,6 +232,13 @@ fieldSize.addEventListener("change", onSelectFieldSize);
 field.addEventListener("click", onClickCard);
 
 let namePlayer = localStorage.getItem("name");
+const highscore = localStorage.getItem("highscore");
+if (highscore) {
+  const seconds = (highscore % 60).toString().padStart(2, "0");
+  const minutes = (highscore - seconds) / 60;
+
+  bestScore.textContent = `${minutes}:${seconds}`;
+}
 
 if (!namePlayer) {
   namePlayer = prompt("Wat is je naam?");
