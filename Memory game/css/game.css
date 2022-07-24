@@ -1,25 +1,70 @@
+:root {
+  --background-color-body: #071e22;
+  --text-color: #f2e2d2;
+  --accent-color: #e8811f;
+  --stats-background-color: #47a8bd;
+  --font-family: "IBM Plex Sans", sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: var(--font-family);
   padding: 2rem;
+  background-color: var(--background-color-body);
+  color: var(--text-color);
 }
 
 main {
   text-align: center;
 }
 
+h1 {
+  font-size: 3rem;
+  margin-block: 2rem 3rem;
+}
+
+#game-form {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.select-size {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.select-size label {
+  font-weight: 700;
+}
+
 #field-size {
-  margin: 2rem auto;
   display: block;
   padding: 0.5rem 1rem;
   font-size: 1.5rem;
   font-family: inherit;
   border-radius: 0.5rem;
-  border: solid 2px #810c0c;
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+
+#game-form button {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  text-transform: capitalize;
+  letter-spacing: 2px;
 }
 
 #field {
@@ -32,14 +77,13 @@ main {
   position: relative;
   border-radius: 0.5rem;
   overflow: hidden;
-  box-shadow: 1px 1px 10px -5px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   user-select: none;
   transition: all ease-in 500ms;
 }
 
-.tile.uncovered,
-.tile.match {
+.tile .uncovered,
+.tile .match {
   cursor: default;
 }
 
@@ -55,11 +99,9 @@ main {
 .board4 {
   grid-template-columns: repeat(4, 1fr);
 }
-
 .board5 {
   grid-template-columns: repeat(5, 1fr);
 }
-
 .board6 {
   grid-template-columns: repeat(6, 1fr);
 }
@@ -67,12 +109,6 @@ main {
 img {
   margin: 0;
   display: block;
-}
-
-@media screen and (min-width: 768px) {
-  #field {
-    max-width: 768px;
-  }
 }
 
 .tile img {
@@ -101,12 +137,32 @@ img {
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   margin-block-end: 1rem;
+  margin-inline: auto;
 }
 
 .scoreboard div {
   display: flex;
   flex-direction: column;
-  border: solid 1px #810c0c;
+  border: none;
   border-radius: 0.5rem;
   padding-block: 0.6rem;
+  background-color: var(--stats-background-color);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.total-attempts,
+.successful-attempts,
+.highscore,
+.play-time {
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+
+@media screen and (min-width: 768px) {
+  #field,
+  .scoreboard,
+  #game-form {
+    max-width: 768px;
+  }
 }
