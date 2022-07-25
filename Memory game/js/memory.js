@@ -53,7 +53,7 @@ function greetUser() {
     localStorage.setItem("name", namePlayer);
   }
 
-  // alert(`Hoi ${namePlayer}, veel plezier met je potje memory`);
+  alert(`Hoi ${namePlayer}, veel plezier met je potje memory`);
 }
 
 // Deze functie zorgt ervoor dat voor elke kaart in de kaartset elementen worden gecreëerd in HTML en vervolgens wordt dit toegevoegd aan het veld
